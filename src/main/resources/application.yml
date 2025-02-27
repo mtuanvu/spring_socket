@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/chatappdb
+    username: postgres
+    password: mtuanvu1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+  jackson:
+    time-zone: Asia/Ho_Chi_Minh
+
+springdoc:
+  api-docs:
+    path: /api
+  swagger-ui:
+    path: /swagger
