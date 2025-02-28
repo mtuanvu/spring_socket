@@ -9,5 +9,4 @@ public interface UserService {
     UserResponse updateUser(String id, UserRequest request);
     UserResponse getUser(String id);
     List<UserResponse> getAllUsers();
-    void deleteUser(String id);
 }

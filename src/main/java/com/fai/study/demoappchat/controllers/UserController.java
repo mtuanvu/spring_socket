@@ -6,7 +6,6 @@ import com.fai.study.demoappchat.service.UserService;
 import com.fai.study.demoappchat.utils.ApiResponse;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,11 +39,5 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.updateUser(id, request))
                 .build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
     }
 }

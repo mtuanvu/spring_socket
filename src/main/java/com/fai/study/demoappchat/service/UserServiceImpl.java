@@ -2,10 +2,8 @@ package com.fai.study.demoappchat.service;
 
 import com.fai.study.demoappchat.dto.request.UserRequest;
 import com.fai.study.demoappchat.dto.response.UserResponse;
-import com.fai.study.demoappchat.entities.Account;
 import com.fai.study.demoappchat.entities.User;
 import com.fai.study.demoappchat.mapper.UserMapper;
-import com.fai.study.demoappchat.repositories.AccountRepository;
 import com.fai.study.demoappchat.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService{
     UserRepository userRepository;
-    AccountRepository accountRepository;
     UserMapper userMapper;
 
     @Override
@@ -42,11 +39,5 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAllUsers().stream()
                 .map(userMapper::toUserResponse)
                 .toList();
-    }
-
-    @Override
-    public void deleteUser(String id) {
-        User userNotFound = userRepository.findByUserId(id).orElseThrow(() -> new RuntimeException("User not found"));
-        userRepository.delete(userNotFound);
     }
 }

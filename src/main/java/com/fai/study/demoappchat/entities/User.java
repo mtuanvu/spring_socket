@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -42,8 +44,15 @@ public class User extends DateTime {
     @Column(name = "registration_date", updatable = false)
     LocalDateTime registrationDate = LocalDateTime.now();
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", unique = true,
             foreignKey = @ForeignKey(name = "fk_user_account"))
     Account account;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+            @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role_id"}))
+    Set<Role> roles = new HashSet<>();
 }
