@@ -21,3 +21,8 @@ springdoc:
     path: /api
   swagger-ui:
     path: /swagger
+
+
+jwt:
+  signer-key: 5jNfSN9nejl7bpKNcfO2J3PB6QBrtg22FuG8DUiHzUxxRta8azatGtPdP8rWTapJ
+  signer-refresh: B7HpxZI4clGq1X+2eYyf1fXaJnTkTTW/s1ZpFn9bFZ7waprPoA+VDkdzjSNyIV79
