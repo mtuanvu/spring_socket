@@ -1,7 +1,9 @@
 package com.fai.study.demoappchat.controllers;
 
 import com.fai.study.demoappchat.dto.request.AccountRequest;
+import com.fai.study.demoappchat.dto.request.RegisterRequest;
 import com.fai.study.demoappchat.dto.response.AccountResponse;
+import com.fai.study.demoappchat.dto.response.UserResponse;
 import com.fai.study.demoappchat.service.AccountService;
 import com.fai.study.demoappchat.utils.ApiResponse;
 import lombok.AccessLevel;
@@ -22,9 +24,9 @@ public class AccountController {
     }
 
     @PostMapping
-    public ApiResponse<AccountResponse> createAccount(@RequestBody AccountRequest request) {
-        return ApiResponse.<AccountResponse>builder()
-                .data(accountService.createAccount(request))
+    public ApiResponse<UserResponse> createAccount(@RequestBody RegisterRequest request) {
+        return ApiResponse.<UserResponse>builder()
+                .data(accountService.createAccount(request.getAccount(), request.getUser()))
                 .build();
     }
 

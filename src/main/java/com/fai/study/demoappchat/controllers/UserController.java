@@ -21,13 +21,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public ApiResponse<UserResponse> createUser(@RequestBody UserRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .data(userService.createUser(request))
-                .build();
-    }
-
     @GetMapping
     public ApiResponse<List<UserResponse>> getUsers() {
         return ApiResponse.<List<UserResponse>>builder()

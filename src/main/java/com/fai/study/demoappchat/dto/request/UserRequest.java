@@ -35,9 +35,6 @@ public class UserRequest {
 
     private LocalDateTime registrationDate = LocalDateTime.now();
 
-    @NotBlank(message = "accountId không được để trống")
-    private String accountId;
-
 
     public @NotBlank(message = "First name không được để trống") @Size(max = 50, message = "First name tối đa 50 ký tự") String getFirstName() {
         return firstName;
@@ -95,11 +92,4 @@ public class UserRequest {
         this.registrationDate = registrationDate;
     }
 
-    public @NotBlank(message = "accountId không được để trống") String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(@NotBlank(message = "accountId không được để trống") String accountId) {
-        this.accountId = accountId;
-    }
 }

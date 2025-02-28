@@ -1,14 +1,19 @@
 package com.fai.study.demoappchat.service;
 
 import com.fai.study.demoappchat.dto.request.AccountRequest;
+import com.fai.study.demoappchat.dto.request.UserRequest;
 import com.fai.study.demoappchat.dto.response.AccountResponse;
+import com.fai.study.demoappchat.dto.response.UserResponse;
 import com.fai.study.demoappchat.entities.Account;
+import com.fai.study.demoappchat.entities.User;
 import com.fai.study.demoappchat.mapper.AccountMapper;
+import com.fai.study.demoappchat.mapper.UserMapper;
 import com.fai.study.demoappchat.repositories.AccountRepository;
 import com.fai.study.demoappchat.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,24 +24,34 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     AccountRepository accountRepository;
     AccountMapper accountMapper;
-    //PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
     UserRepository userRepository;
+    UserMapper userMapper;
 
-    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, UserRepository userRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public AccountResponse createAccount(AccountRequest request) {
+    public UserResponse createAccount(AccountRequest request, UserRequest userRequest) {
         if (accountRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
 
         Account account = accountMapper.toAccount(request);
+        account.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+        account = accountRepository.save(account);
+
+        User user = userMapper.toUser(userRequest);
+        user.setAccount(account);
+
+        userRepository.save(user);
         //chua them hash password
-        return accountMapper.toAccountResponse(accountRepository.save(account));
+        return userMapper.toUserResponse(user);
     }
 
     @Override

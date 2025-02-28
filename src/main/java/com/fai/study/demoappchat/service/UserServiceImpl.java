@@ -25,17 +25,6 @@ public class UserServiceImpl implements UserService{
     UserMapper userMapper;
 
     @Override
-    public UserResponse createUser(UserRequest request) {
-        User user = userMapper.toUser(request);
-
-        if (request.getAccountId() != null) {
-            Account account = accountRepository.findByAccountId(request.getAccountId()).orElseThrow(() -> new RuntimeException("Account not found"));
-            user.setAccount(account);
-        }
-        return userMapper.toUserResponse(userRepository.save(user));
-    }
-
-    @Override
     public UserResponse updateUser(String id, UserRequest request) {
         User user = userRepository.findByUserId(id).orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
