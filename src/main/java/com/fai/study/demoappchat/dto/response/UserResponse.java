@@ -21,4 +21,6 @@ public class UserResponse {
     String phone;
     LocalDateTime registrationDate;
     AccountResponse account;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }

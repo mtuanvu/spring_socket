@@ -8,7 +8,6 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class AccountRequest {
     @NotBlank(message = "Username không được để trống")
     @Size(min = 3, max = 50, message = "Username phải có độ dài từ 3 đến 50 ký tự")

@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -44,6 +43,7 @@ public class User extends DateTime {
     LocalDateTime registrationDate = LocalDateTime.now();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", unique = true,
+            foreignKey = @ForeignKey(name = "fk_user_account"))
     Account account;
 }

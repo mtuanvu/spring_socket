@@ -7,23 +7,26 @@ import com.fai.study.demoappchat.mapper.AccountMapper;
 import com.fai.study.demoappchat.repositories.AccountRepository;
 import com.fai.study.demoappchat.repositories.UserRepository;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AccountServiceImpl implements AccountService {
     AccountRepository accountRepository;
     AccountMapper accountMapper;
     //PasswordEncoder passwordEncoder;
     UserRepository userRepository;
+
+    public AccountServiceImpl(AccountRepository accountRepository, AccountMapper accountMapper, UserRepository userRepository) {
+        this.accountRepository = accountRepository;
+        this.accountMapper = accountMapper;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public AccountResponse createAccount(AccountRequest request) {
@@ -32,7 +35,6 @@ public class AccountServiceImpl implements AccountService {
         }
 
         Account account = accountMapper.toAccount(request);
-//        log.info("Account created: {}", account);
         //chua them hash password
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }

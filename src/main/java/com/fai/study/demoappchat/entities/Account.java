@@ -34,10 +34,14 @@ public class Account extends DateTime {
     @Column(name = "status", nullable = false)
     Status status;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     User user;
 
     public enum Status {
         ACTIVE, BLOCKED, DELETED
+    }
+
+    public Account(String id) {
+        this.id = id;
     }
 }

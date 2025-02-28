@@ -15,5 +15,8 @@ public interface AccountMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateAccount(@MappingTarget Account account, AccountRequest request);
 
+    @Named("toAccountResponse")
+    @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(target = "updatedAt", source = "updatedAt")
     AccountResponse toAccountResponse(Account account);
 }

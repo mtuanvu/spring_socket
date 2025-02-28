@@ -4,6 +4,8 @@ import com.fai.study.demoappchat.entities.Account;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class AccountResponse {
     boolean emailVerified;
     boolean phoneVerified;
     Account.Status status;
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
