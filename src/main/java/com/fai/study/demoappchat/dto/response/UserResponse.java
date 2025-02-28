@@ -18,7 +18,6 @@ public class UserResponse {
     String sex;
     LocalDate birthDate;
     String email;
-    String phone;
     LocalDateTime registrationDate;
     AccountResponse account;
     LocalDateTime createdAt;

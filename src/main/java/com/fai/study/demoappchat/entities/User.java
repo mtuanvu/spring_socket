@@ -38,13 +38,10 @@ public class User extends DateTime {
     @Column(name = "email", unique = true ,length = 100)
     String email;
 
-    @Column(name = "phone", unique = true ,length = 20)
-    String phone;
-
     @Column(name = "registration_date", updatable = false)
     LocalDateTime registrationDate = LocalDateTime.now();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id", unique = true,
             foreignKey = @ForeignKey(name = "fk_user_account"))
     Account account;

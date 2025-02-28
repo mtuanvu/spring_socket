@@ -29,10 +29,6 @@ public class UserRequest {
     @NotBlank(message = "Email không được để trống")
     private String email;
 
-    @NotBlank(message = "Số điện thoại không được để trống")
-    @Size(max = 20, message = "Số điện thoại tối đa 20 ký tự")
-    private String phone;
-
     private LocalDateTime registrationDate = LocalDateTime.now();
 
 
@@ -74,14 +70,6 @@ public class UserRequest {
 
     public void setEmail(@Email(message = "Email không hợp lệ") @NotBlank(message = "Email không được để trống") String email) {
         this.email = email;
-    }
-
-    public @NotBlank(message = "Số điện thoại không được để trống") @Size(max = 20, message = "Số điện thoại tối đa 20 ký tự") String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(@NotBlank(message = "Số điện thoại không được để trống") @Size(max = 20, message = "Số điện thoại tối đa 20 ký tự") String phone) {
-        this.phone = phone;
     }
 
     public LocalDateTime getRegistrationDate() {

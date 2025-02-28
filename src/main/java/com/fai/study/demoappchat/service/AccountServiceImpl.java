@@ -13,7 +13,6 @@ import com.fai.study.demoappchat.repositories.UserRepository;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserResponse createAccount(AccountRequest request, UserRequest userRequest) {
-        if (accountRepository.existsByUsername(request.getUsername())) {
+        if (accountRepository.existsByPhone(request.getPhone())) {
             throw new RuntimeException("Username already exists");
         }
 

@@ -18,9 +18,9 @@ public interface AccountRepository extends JpaRepository<Account, String> {
     List<Account> findAllAccount();
 
     @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END FROM accounts " +
-            "WHERE username = :username", nativeQuery = true)
-    boolean existsByUsername(@org.springframework.data.repository.query.Param("username") String username);
+            "WHERE phone = :phone", nativeQuery = true)
+    boolean existsByPhone(@org.springframework.data.repository.query.Param("phone") String phone);
 
-    @Query(value = "SELECT a FROM Account a WHERE a.username = :username")
-    Optional<Account> findByUsername(@Param("username") String username);
+    @Query(value = "SELECT a FROM Account a WHERE a.phone = :phone")
+    Optional<Account> findByPhone(@Param("phone") String phone);
 }

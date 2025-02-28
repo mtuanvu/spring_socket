@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -43,8 +42,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        Account account = accountRepository.findByUsername(request.getUsername()).orElseThrow(
-                () -> new RuntimeException("Username not found!")
+        Account account = accountRepository.findByPhone(request.getPhone()).orElseThrow(
+                () -> new RuntimeException("Phone not found!")
         );
 
         boolean authenticated = passwordEncoder.matches(request.getPassword(), account.getPasswordHash());
@@ -55,8 +54,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         tokenRepository.revokeAllByAccount(account);
 
-        String accessToken = generateAccessToken(request.getUsername());
-        String refreshToken  = generateRefreshToken(request.getUsername());
+        String accessToken = generateAccessToken(request.getPhone());
+        String refreshToken  = generateRefreshToken(request.getPhone());
 
         Token token = new Token();
         token.setRefreshToken(refreshToken);
@@ -85,7 +84,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new RuntimeException("Invalid refresh token!!!");
         }
 
-        String newAccessToken = generateAccessToken(storedToken.getAccount().getUsername());
+        String newAccessToken = generateAccessToken(storedToken.getAccount().getPhone());
 
         return AuthenticationResponse.builder()
                 .accessToken(newAccessToken)
@@ -103,12 +102,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
 
-    private String generateAccessToken(String username) {
+    private String generateAccessToken(String phone) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder().subject(username)
+        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder().subject(phone)
                 .issuer("chatapp.com")
                 .issueTime(new Date()).expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
-                .claim("username", username)
+                .claim("phone", phone)
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -123,10 +122,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
-    private String generateRefreshToken(String username) {
+    private String generateRefreshToken(String phone) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(phone)
                 .issuer("chatapp.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(7, ChronoUnit.DAYS).toEpochMilli()))

@@ -21,8 +21,8 @@ public class Account extends DateTime {
     @Column(name = "account_id")
     String id;
 
-    @Column(name = "username", unique = true, nullable = false)
-    String username;
+    @Column(name = "phone", unique = true, nullable = false, length = 20)
+    String phone;
 
     @Column(name = "password_hash", columnDefinition = "TEXT")
     String passwordHash;
@@ -37,7 +37,7 @@ public class Account extends DateTime {
     @Column(name = "status", nullable = false)
     Status status;
 
-    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -45,9 +45,5 @@ public class Account extends DateTime {
 
     public enum Status {
         ACTIVE, BLOCKED, DELETED
-    }
-
-    public Account(String id) {
-        this.id = id;
     }
 }

@@ -9,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountRequest {
-    @NotBlank(message = "Username không được để trống")
-    @Size(min = 3, max = 50, message = "Username phải có độ dài từ 3 đến 50 ký tự")
-    private String username;
+    @NotBlank(message = "Số điện thoại không được để trống")
+    @Size(max = 20, message = "Số điện thoại tối đa 20 ký tự")
+    private String phone;;
 
     @NotBlank(message = "Password không được để trống")
     @Size(min = 6, message = "Password phải có ít nhất 6 ký tự")
@@ -24,12 +24,12 @@ public class AccountRequest {
     @Pattern(regexp = "ACTIVE|BLOCKED|DELETED", message = "Status phải là ACTIVE, BLOCKED hoặc DELETED")
     private String status;
 
-    public @NotBlank(message = "Username không được để trống") @Size(min = 3, max = 50, message = "Username phải có độ dài từ 3 đến 50 ký tự") String getUsername() {
-        return username;
+    public @NotBlank(message = "Số điện thoại không được để trống") @Size(max = 20, message = "Số điện thoại tối đa 20 ký tự") String getPhone() {
+        return phone;
     }
 
-    public void setUsername(@NotBlank(message = "Username không được để trống") @Size(min = 3, max = 50, message = "Username phải có độ dài từ 3 đến 50 ký tự") String username) {
-        this.username = username;
+    public void setPhone(@NotBlank(message = "Số điện thoại không được để trống") @Size(max = 20, message = "Số điện thoại tối đa 20 ký tự") String phone) {
+        this.phone = phone;
     }
 
     public @NotBlank(message = "Password không được để trống") @Size(min = 6, message = "Password phải có ít nhất 6 ký tự") String getPassword() {

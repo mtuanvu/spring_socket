@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class AccountResponse {
     String id;
-    String username;
+    String phone;
     boolean emailVerified;
     boolean phoneVerified;
     Account.Status status;
