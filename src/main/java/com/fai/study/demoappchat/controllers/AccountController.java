@@ -6,12 +6,12 @@ import com.fai.study.demoappchat.dto.response.AccountResponse;
 import com.fai.study.demoappchat.dto.response.UserResponse;
 import com.fai.study.demoappchat.service.AccountService;
 import com.fai.study.demoappchat.utils.ApiResponse;
+import com.fai.study.demoappchat.utils.PagingResponse;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
@@ -29,8 +29,11 @@ public class AccountController {
     }
 
     @GetMapping
-    public ApiResponse<List<AccountResponse>> getAccounts() {
-        return ApiResponse.<List<AccountResponse>>builder().data(accountService.getAllAccounts()).build();
+    public ApiResponse<PagingResponse<AccountResponse>> getAccounts(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return ApiResponse.<PagingResponse<AccountResponse>>builder().data(accountService.getAllAccounts(pageNumber, pageSize)).build();
     }
 
     @GetMapping("/{id}")

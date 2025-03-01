@@ -4,10 +4,10 @@ import com.fai.study.demoappchat.dto.request.PermissionRequest;
 import com.fai.study.demoappchat.dto.response.PermissionResponse;
 import com.fai.study.demoappchat.service.PermissionService;
 import com.fai.study.demoappchat.utils.ApiResponse;
+import com.fai.study.demoappchat.utils.PagingResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/permissions")
@@ -26,9 +26,12 @@ public class PermissionController {
     }
 
     @GetMapping
-    public ApiResponse<List<PermissionResponse>> getAllPermissions() {
-        return ApiResponse.<List<PermissionResponse>>builder()
-                .data(permissionService.getAllPermissions())
+    public ApiResponse<PagingResponse<PermissionResponse>> getAllPermissions(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return ApiResponse.<PagingResponse<PermissionResponse>>builder()
+                .data(permissionService.getAllPermissions(pageNumber, pageSize))
                 .build();
     }
 

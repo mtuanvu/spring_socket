@@ -5,12 +5,17 @@ import com.fai.study.demoappchat.dto.response.RoleResponse;
 import com.fai.study.demoappchat.entities.Role;
 import com.fai.study.demoappchat.mapper.RoleMapper;
 import com.fai.study.demoappchat.repositories.RoleRepository;
+import com.fai.study.demoappchat.utils.PageableData;
+import com.fai.study.demoappchat.utils.PagingResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
 
@@ -45,10 +50,22 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public List<RoleResponse> getAllRoles() {
-        return roleRepository.findAll().stream()
-                .map(roleMapper::toRoleResponse)
-                .toList();
+    public PagingResponse<RoleResponse> getAllRoles(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Role> roles = roleRepository.findAll(pageable);
+
+        List<RoleResponse> roleResponses = roles.getContent()
+                .stream().map(roleMapper::toRoleResponse).toList();
+
+        PageableData pageableData = new PageableData()
+                .setPageNumber(roles.getNumber())
+                .setPageSize(roles.getSize())
+                .setTotalPages(roles.getTotalPages())
+                .setTotalRecords(roles.getTotalElements());
+
+        return new PagingResponse<RoleResponse>()
+                .setContents(roleResponses)
+                .setPaging(pageableData);
     }
 
     @Override

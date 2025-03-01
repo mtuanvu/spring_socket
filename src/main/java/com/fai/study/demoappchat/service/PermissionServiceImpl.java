@@ -5,6 +5,11 @@ import com.fai.study.demoappchat.dto.response.PermissionResponse;
 import com.fai.study.demoappchat.entities.Permission;
 import com.fai.study.demoappchat.mapper.PermissionMapper;
 import com.fai.study.demoappchat.repositories.PermissionRepository;
+import com.fai.study.demoappchat.utils.PageableData;
+import com.fai.study.demoappchat.utils.PagingResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,10 +50,22 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionResponse> getAllPermissions() {
-        return permissionRepository.findAll().stream()
-                .map(permissionMapper::toPermissionResponse)
-                .toList();
+    public PagingResponse<PermissionResponse> getAllPermissions(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Permission> permissions = permissionRepository.findAll(pageable);
+
+        List<PermissionResponse> permissionResponses = permissions.getContent()
+                .stream().map(permissionMapper::toPermissionResponse).toList();
+
+        PageableData pageableData = new PageableData()
+                .setPageNumber(permissions.getNumber())
+                .setPageSize(permissions.getSize())
+                .setTotalPages(permissions.getTotalPages())
+                .setTotalRecords(permissions.getTotalElements());
+
+        return new PagingResponse<PermissionResponse>()
+                .setContents(permissionResponses)
+                .setPaging(pageableData);
     }
 
     @Override

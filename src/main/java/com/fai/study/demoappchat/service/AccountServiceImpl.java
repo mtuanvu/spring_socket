@@ -10,9 +10,14 @@ import com.fai.study.demoappchat.mapper.AccountMapper;
 import com.fai.study.demoappchat.mapper.UserMapper;
 import com.fai.study.demoappchat.repositories.AccountRepository;
 import com.fai.study.demoappchat.repositories.UserRepository;
+import com.fai.study.demoappchat.utils.PageableData;
+import com.fai.study.demoappchat.utils.PagingResponse;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -75,10 +80,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountResponse> getAllAccounts() {
-        return accountRepository.findAllAccount().stream()
-                .map(accountMapper::toAccountResponse)
-                .toList();
+    public PagingResponse<AccountResponse> getAllAccounts(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Account> accounts = accountRepository.findAll(pageable);
+
+        List<AccountResponse> accountResponses = accounts.getContent()
+                .stream().map(accountMapper::toAccountResponse).toList();
+
+        PageableData pageableData = new PageableData()
+                .setPageNumber(accounts.getNumber())
+                .setPageSize(accounts.getSize())
+                .setTotalPages(accounts.getTotalPages())
+                .setTotalRecords(accounts.getTotalElements());
+
+        return new PagingResponse<AccountResponse>()
+                .setContents(accountResponses)
+                .setPaging(pageableData);
     }
 
     @Override

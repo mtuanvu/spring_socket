@@ -1,15 +1,14 @@
 package com.fai.study.demoappchat.controllers;
 
-import com.fai.study.demoappchat.dto.request.UserRequest;
 import com.fai.study.demoappchat.dto.request.UserUpdateRequest;
 import com.fai.study.demoappchat.dto.response.UserResponse;
 import com.fai.study.demoappchat.service.UserService;
 import com.fai.study.demoappchat.utils.ApiResponse;
+import com.fai.study.demoappchat.utils.PagingResponse;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -22,9 +21,13 @@ public class UserController {
     }
 
     @GetMapping
-    public ApiResponse<List<UserResponse>> getUsers() {
-        return ApiResponse.<List<UserResponse>>builder()
-                .data(userService.getAllUsers())
+    public ApiResponse<PagingResponse<UserResponse>> getUsers(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize) {
+
+        PagingResponse<UserResponse> users = userService.getAllUsers(pageNumber, pageSize);
+        return ApiResponse.<PagingResponse<UserResponse>>builder()
+                .data(users)
                 .build();
     }
 

@@ -4,10 +4,10 @@ import com.fai.study.demoappchat.dto.request.RoleRequest;
 import com.fai.study.demoappchat.dto.response.RoleResponse;
 import com.fai.study.demoappchat.service.RoleService;
 import com.fai.study.demoappchat.utils.ApiResponse;
+import com.fai.study.demoappchat.utils.PagingResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/roles")
@@ -25,8 +25,12 @@ public class RoleController {
 
 
     @GetMapping
-    public ApiResponse<List<RoleResponse>> getRoles() {
-        return ApiResponse.<List<RoleResponse>>builder().data(roleService.getAllRoles()).build();
+    public ApiResponse<PagingResponse<RoleResponse>> getRoles(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize) {
+        return ApiResponse.<PagingResponse<RoleResponse>>builder()
+                .data(roleService.getAllRoles(pageNumber, pageSize))
+                .build();
     }
 
     @GetMapping("/{id}")
