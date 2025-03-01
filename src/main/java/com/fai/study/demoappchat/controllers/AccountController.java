@@ -25,30 +25,22 @@ public class AccountController {
 
     @PostMapping
     public ApiResponse<UserResponse> createAccount(@RequestBody RegisterRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .data(accountService.createAccount(request.getAccount(), request.getUser()))
-                .build();
+        return ApiResponse.<UserResponse>builder().data(accountService.createAccount(request.getAccount(), request.getUser())).build();
     }
 
     @GetMapping
     public ApiResponse<List<AccountResponse>> getAccounts() {
-        return ApiResponse.<List<AccountResponse>>builder()
-                .data(accountService.getAllAccounts())
-                .build();
+        return ApiResponse.<List<AccountResponse>>builder().data(accountService.getAllAccounts()).build();
     }
 
     @GetMapping("/{id}")
     public ApiResponse<AccountResponse> getAccount(@PathVariable String id) {
-        return ApiResponse.<AccountResponse>builder()
-                .data(accountService.getAccount(id))
-                .build();
+        return ApiResponse.<AccountResponse>builder().data(accountService.getAccount(id)).build();
     }
 
     @PutMapping("/{id}")
     public ApiResponse<AccountResponse> updateAccount(@PathVariable String id, @RequestBody AccountRequest request) {
-        return ApiResponse.<AccountResponse>builder()
-                .data(accountService.updateAccount(id, request))
-                .build();
+        return ApiResponse.<AccountResponse>builder().data(accountService.updateAccount(id, request)).build();
     }
 
     @DeleteMapping("/{id}")

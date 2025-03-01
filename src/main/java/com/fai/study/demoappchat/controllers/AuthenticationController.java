@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -29,16 +28,11 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse<Object>> login(@RequestBody AuthenticationRequest request) {
         try {
             AuthenticationResponse result = authenticationService.authenticate(request);
-            ApiResponse<Object> apiResponse = ApiResponse.builder()
-                    .data(result)
-                    .build();
+            ApiResponse<Object> apiResponse = ApiResponse.builder().data(result).build();
 
             return ResponseEntity.ok(apiResponse);
         } catch (Exception e) {
-            ApiResponse<Object> apiResponse = ApiResponse.builder()
-                    .error("Authentication failed: " + e.getMessage())
-                    .data(null)
-                    .build();
+            ApiResponse<Object> apiResponse = ApiResponse.builder().error("Authentication failed: " + e.getMessage()).data(null).build();
 
             return ResponseEntity.badRequest().body(apiResponse);
         }

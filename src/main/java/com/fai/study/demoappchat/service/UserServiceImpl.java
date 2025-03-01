@@ -1,6 +1,7 @@
 package com.fai.study.demoappchat.service;
 
 import com.fai.study.demoappchat.dto.request.UserRequest;
+import com.fai.study.demoappchat.dto.request.UserUpdateRequest;
 import com.fai.study.demoappchat.dto.response.UserResponse;
 import com.fai.study.demoappchat.entities.User;
 import com.fai.study.demoappchat.mapper.UserMapper;
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService{
     UserMapper userMapper;
 
     @Override
-    public UserResponse updateUser(String id, UserRequest request) {
+    public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findByUserId(id).orElseThrow(() -> new RuntimeException("User not found"));
         userMapper.updateUser(user, request);
         return userMapper.toUserResponse(userRepository.save(user));

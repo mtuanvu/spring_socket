@@ -1,6 +1,7 @@
 package com.fai.study.demoappchat.controllers;
 
 import com.fai.study.demoappchat.dto.request.UserRequest;
+import com.fai.study.demoappchat.dto.request.UserUpdateRequest;
 import com.fai.study.demoappchat.dto.response.UserResponse;
 import com.fai.study.demoappchat.service.UserService;
 import com.fai.study.demoappchat.utils.ApiResponse;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<UserResponse> updateUser(@PathVariable String id, @RequestBody UserRequest request) {
+    public ApiResponse<UserResponse> updateUser(@PathVariable String id, @RequestBody UserUpdateRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .data(userService.updateUser(id, request))
                 .build();

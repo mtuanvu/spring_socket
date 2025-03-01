@@ -1,5 +1,6 @@
 package com.fai.study.demoappchat.entities;
 
+import com.fai.study.demoappchat.utils.DateTime;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "permissions")
-public class Permission {
+public class Permission extends DateTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

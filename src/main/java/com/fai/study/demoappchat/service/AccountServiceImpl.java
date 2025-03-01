@@ -50,7 +50,6 @@ public class AccountServiceImpl implements AccountService {
         user.setAccount(account);
 
         userRepository.save(user);
-        //chua them hash password
         return userMapper.toUserResponse(user);
     }
 
@@ -61,6 +60,7 @@ public class AccountServiceImpl implements AccountService {
         );
 
         accountMapper.updateAccount(account, request);
+        account.setPasswordHash(passwordEncoder.encode(request.getPassword()));
 
         return accountMapper.toAccountResponse(accountRepository.save(account));
     }

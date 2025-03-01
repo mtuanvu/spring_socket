@@ -15,17 +15,6 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "Authorize";
 
-        return new OpenAPI()
-                .info(new Info()
-                        .title("API Documentation"))
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(new Components()
-                        .addSecuritySchemes(
-                                securitySchemeName,
-                                new SecurityScheme()
-                                        .name(securitySchemeName)
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("Bearer")
-                                        .bearerFormat("JWT")));
+        return new OpenAPI().info(new Info().title("API Documentation")).addSecurityItem(new SecurityRequirement().addList(securitySchemeName)).components(new Components().addSecuritySchemes(securitySchemeName, new SecurityScheme().name(securitySchemeName).type(SecurityScheme.Type.HTTP).scheme("Bearer").bearerFormat("JWT")));
     }
 }
